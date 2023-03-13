@@ -1,0 +1,25 @@
+---
+import { getCollection } from "astro:content";
+import { SITE_DESCRIPTION, SITE_TITLE } from "../../consts";
+import Page from "../../layouts/Page.astro";
+
+const posts = (await getCollection("blog")).sort(
+  (a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf()
+);
+---
+
+<Page
+  pageName="blog"
+  title={SITE_TITLE + " | Home"}
+  description={SITE_DESCRIPTION}
+>
+  <section class="container">
+    <h1 class="section-title">Blog</h1>
+  </section>
+</Page>
+
+<style lang="scss">
+	.container {
+		margin-top: 100px;
+	}
+</style>

@@ -1,0 +1,40 @@
+---
+interface Props {
+  icon: string;
+  value: number;
+  title: string;
+}
+
+const { icon, value, title } = Astro.props;
+---
+
+<div class="row">
+  <div class="col-2 icon">
+    <i class={`bi ${icon}`}></i>
+  </div>
+  <div class="col-10 text">
+    <div>
+      {value}
+    </div>
+    <div>
+      {title}
+    </div>
+  </div>
+</div>
+
+<style lang="scss">
+  .icon {
+    i {
+      font-size: 2.5rem;
+      color: #dedeea;
+    }
+  }
+
+  .text {
+    div:first-child {
+      font-size: 2rem;
+      font-weight: 600;
+    }
+
+  }
+</style>

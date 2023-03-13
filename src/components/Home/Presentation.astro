@@ -1,0 +1,124 @@
+---
+import Avatar from "../../assets/images/avatar.jpeg";
+---
+
+<section id="presentation">
+  <img src={Avatar} alt="Profile picture" />
+  <h1>Axel León</h1>
+  <p>Soy un desarrollador web.</p>
+
+  <div class="social-media">
+    <a href="https://www.linkedin.com/in/karl992/">
+      <i class="bi bi-github text-white fs-3"></i>
+    </a>
+    <a href="https://www.linkedin.com/in/karl992/">
+      <i class="bi bi-linkedin text-white fs-3"></i>
+    </a>
+    <a href="https://www.linkedin.com/in/karl992/">
+      <i class="bi bi-instagram text-white fs-3"></i>
+    </a>
+  </div>
+
+  <button class="btn btn-primary mt-3"> Contrátame</button>
+
+  <div class="mouse-container">
+    <div></div>
+  </div>
+</section>
+
+<style lang="scss">
+  section {
+    background-image: url("../../assets/images/full-size-bg-image.webp");
+    // background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    max-width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    flex-direction: column;
+
+    img {
+      border-radius: 100%;
+      width: 150px;
+    }
+
+    h1 {
+      margin-top: 1rem;
+    }
+
+    .social-media {
+      a {
+        margin: 0 0.5rem;
+        text-decoration: none;
+      }
+    }
+
+    .mouse-container {
+      position: absolute;
+      bottom: 10px;
+
+      div {
+        width: 50px;
+        height: 90px;
+        border: 4px solid white;
+        border-radius: 60px;
+      }
+
+      div::before {
+        content: "";
+        width: 12.5px;
+        height: 12.5px;
+        position: absolute;
+        top: 15px;
+        background: white;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 50%;
+        opacity: 1;
+        animation: mouse 2s infinite;
+      }
+    }
+  }
+
+  @keyframes mouse {
+    from {
+      opacity: 1;
+      top: 15px;
+    }
+    to {
+      opacity: 0;
+      top: 75px;
+    }
+  }
+</style>
+
+<script>
+  (function () {
+    // Add event listener
+    document.addEventListener("mousemove", parallax);
+    const elem = document.getElementById("presentation");
+    // const elem = document.querySelector("#presentation");
+    // Magic happens here
+    function parallax(e) {
+      let _w = window.innerWidth / 2;
+      let _h = window.innerHeight / 2;
+      let _mouseX = e.clientX;
+      let _mouseY = e.clientY;
+      let _depth1 = `${50 - (_mouseX - _w) * 0.01}% ${
+        50 - (_mouseY - _h) * 0.01
+      }%`;
+      let _depth2 = `${50 - (_mouseX - _w) * 0.02}% ${
+        50 - (_mouseY - _h) * 0.02
+      }%`;
+      let _depth3 = `${50 - (_mouseX - _w) * 0.06}% ${
+        50 - (_mouseY - _h) * 0.06
+      }%`;
+      let x = `${_depth3}, ${_depth2}, ${_depth1}`;
+      console.log(x);
+      if (elem) elem.style.backgroundPosition = x;
+    }
+  })();
+</script>

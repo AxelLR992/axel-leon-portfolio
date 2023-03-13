@@ -1,0 +1,25 @@
+---
+import AboutMe from "../components/Home/AboutMe.astro";
+import Achievements from "../components/Home/Achievements.astro";
+import Experience from "../components/Home/Experience.astro";
+import GetInTouch from "../components/Home/GetInTouch.astro";
+import LatestPosts from "../components/Home/LatestPosts.astro";
+import Presentation from "../components/Home/Presentation.astro";
+import Services from "../components/Home/Services.astro";
+import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
+import Page from "../layouts/Page.astro";
+---
+
+<Page
+  title={SITE_TITLE + " | Home"}
+  description={SITE_DESCRIPTION}
+  pageName="home"
+>
+  <Presentation />
+  <AboutMe />
+  <Achievements />
+  <Services />
+  <Experience />
+  <LatestPosts />
+  <GetInTouch />
+</Page>

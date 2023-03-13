@@ -1,0 +1,55 @@
+---
+import avatar from "../../assets/images/avatar.jpeg";
+import ProgressBar from "../public/ProgressBar.astro";
+---
+
+<section class="container my-4">
+  <h2 class="my-5 section-title">About Me</h2>
+  <div class="row">
+    <div class="col-12 col-md-3">
+      <img src={avatar} alt="Profile picture" class="rounded-circle" />
+    </div>
+    <div class="col-12 col-md-9 row dialogue-box">
+      <div class="col-12 col-md-6">
+        <p>
+          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Suscipit
+          quos consequatur doloremque saepe deserunt facere? Temporibus nihil
+          rem provident! Consectetur, perferendis. Doloremque, facilis deserunt
+          cum voluptatem nemo voluptates atque facere.
+        </p>
+
+        <a href="#" class="btn btn-primary">Download CV</a>
+      </div>
+      <div class="col-12 col-md-6">
+        <ProgressBar title="Web Development" value={95} color="secondary" />
+        <ProgressBar title="Mobile Development" value={80} className="mt-2" />
+        <ProgressBar
+          title="REST APIs"
+          value={95}
+          className="mt-2"
+          color="info"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style lang="scss">
+  .dialogue-box {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    position: relative;
+
+    &:before {
+      content: "";
+      position: absolute;
+      top: 30%;
+      margin-top: -15px;
+      left: -30px;
+      border: solid 15px transparent;
+      border-right-color: #fff;
+    }
+  }
+</style>

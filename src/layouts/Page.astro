@@ -1,0 +1,27 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+import Navigation from "../components/Navigation.astro";
+// Bootstrap icons
+import "bootstrap-icons/font/bootstrap-icons.css";
+import Footer from "../components/Footer.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  pageName: "home" | "blog";
+}
+
+const { title, description, pageName }: Props = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <BaseHead title={title} description={description} />
+  </head>
+  <body>
+    <Navigation activePage={pageName} />
+    <slot />
+    <Footer />
+  </body>
+</html>

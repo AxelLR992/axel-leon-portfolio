@@ -1,0 +1,37 @@
+// Variable overrides first
+$primary: #ff4c61;
+$secondary: #f8d74c;
+$info: #6c6ce5;
+$blue: #343353;
+$enable-shadows: true;
+$enable-smooth-scroll: true;
+
+// Then import Bootstrap
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+body {
+  background-color: #faf9ff;
+}
+
+.btn-primary {
+  border-radius: 40px !important;
+  color: white !important;
+  font-weight: 600 !important;
+}
+
+.section-title {
+  font-weight: bolder;
+  color: $blue;
+  position: relative;
+
+  &:before {
+    content: "";
+    background-image: url(../assets/images/dots-bg.svg);
+    display: block;
+    height: 37px;
+    left: -14px;
+    top: -14px;
+    position: absolute;
+    width: 37px;
+  }
+}

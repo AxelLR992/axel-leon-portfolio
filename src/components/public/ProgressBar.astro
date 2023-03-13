@@ -1,0 +1,41 @@
+---
+interface Props {
+  value: number;
+  title: string;
+  className?: string;
+  color?:
+    | "primary"
+    | "secondary"
+    | "success"
+    | "danger"
+    | "warning"
+    | "info"
+    | "light"
+    | "dark";
+}
+
+const { value, title, className = "", color = "primary" } = Astro.props;
+---
+
+<div class={`${className}`}>
+  <label>
+    {title}
+    <span class="float-right">{value}%</span>
+  </label>
+  <div class="progress">
+    <div class={`progress-bar bg-${color}`} style={`width: ${value}%`}></div>
+  </div>
+</div>
+
+<style lang="scss">
+  label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+
+    span {
+      position: absolute;
+      right: 30px;
+    }
+  }
+</style>

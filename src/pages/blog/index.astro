@@ -1,11 +1,17 @@
 ---
 import { getCollection } from "astro:content";
+import PostCard from "../../components/public/PostCard.astro";
 import { SITE_DESCRIPTION, SITE_TITLE } from "../../consts";
 import Page from "../../layouts/Page.astro";
 
 const posts = (await getCollection("blog")).sort(
   (a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf()
 );
+const categories = posts
+  .map((p) => p.data.category)
+  .filter((c, i, self) => self.indexOf(c) === i);
+// Add all category to categories array at the beginning
+categories.unshift("All");
 ---
 
 <Page
@@ -14,12 +20,136 @@ const posts = (await getCollection("blog")).sort(
   description={SITE_DESCRIPTION}
 >
   <section class="container">
-    <h1 class="section-title">Blog</h1>
+    <div class="row">
+      <div class="col-3">
+        <h1 class="section-title">Blog</h1>
+      </div>
+      <div class="col-9">
+        <div class="input-group">
+          <span class="input-group-text">
+            <i class="bi bi-search"></i>
+          </span>
+          <input
+            id="search"
+            type="text"
+            class="form-control"
+            placeholder="Buscar..."
+          />
+        </div>
+      </div>
+      <div class="col-12">
+        Categories: <br />
+        {
+          categories.map((category) => (
+            <span class="badge bg-primary me-2 category-badge">{category}</span>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="row g-4 my-4">
+      {
+        posts.map((p) => (
+          <div class="col-12 col-sm-6 col-md-4 post-card">
+            <PostCard
+              category={p.data.category}
+              title={p.data.title}
+              date={p.data.pubDate.toLocaleDateString()}
+              link={`/blog/${p.slug}`}
+              image={p.data.heroImage}
+            />
+          </div>
+        ))
+      }
+    </div>
   </section>
 </Page>
 
 <style lang="scss">
-	.container {
-		margin-top: 100px;
-	}
+  .container {
+    margin-top: 100px;
+    min-height: 100vh;
+  }
+
+  .form-control {
+    &:focus {
+      z-index: 0 !important;
+    }
+  }
+
+  .category-badge {
+    cursor: pointer;
+    transition: opacity 0.2s ease-in-out;
+
+    &:hover {
+      opacity: 0.8;
+    }
+
+    &--selected {
+      background-color: #f9d74c !important;
+      color: #fff;
+    }
+  }
 </style>
+
+<script>
+  // Handle search
+  const search = document.getElementById("search");
+  if (search)
+    search.addEventListener("keyup", (e: Event) => {
+      const target = e.target as HTMLInputElement;
+      const value = target.value.toLowerCase();
+      const posts = document.querySelectorAll(".post-card");
+      posts.forEach((p: HTMLElement) => {
+        const titleElement: HTMLElement | null =
+          p.querySelector(".post-card-title");
+        const title = titleElement?.innerText.toLowerCase();
+
+        const categoryElement: HTMLElement | null =
+          p.querySelector(".category");
+        const category = categoryElement?.innerText.toLowerCase();
+        if (
+          (title && title.includes(value)) ||
+          (category && category.includes(value))
+        ) {
+          p.style.display = "block";
+        } else {
+          p.style.display = "none";
+        }
+      });
+    });
+
+  // Select "All" category by default
+  const allCategoryBadge = document.querySelector(".category-badge");
+  if (allCategoryBadge)
+    allCategoryBadge.classList.add("category-badge--selected");
+
+  // Handle category selection
+  const categoryBadges = document.querySelectorAll(".category-badge");
+  categoryBadges.forEach((badge) => {
+    badge.addEventListener("click", (e: Event) => {
+      const target = e.target as HTMLElement;
+      const value = target.innerText.toLowerCase();
+      const posts = document.querySelectorAll(".post-card");
+      posts.forEach((p: HTMLElement) => {
+        const categoryElement: HTMLElement | null =
+          p.querySelector(".category");
+        const category = categoryElement?.innerText.toLowerCase();
+        if (category && category.includes(value)) {
+          p.style.display = "block";
+        } else if (value === "all") {
+          p.style.display = "block";
+        } else {
+          p.style.display = "none";
+        }
+      });
+
+      // Remove selected class from all badges
+      categoryBadges.forEach((badge) => {
+        badge.classList.remove("category-badge--selected");
+      });
+      // Add selected class to target
+      target.classList.add("category-badge--selected");
+    });
+  });
+</script>
